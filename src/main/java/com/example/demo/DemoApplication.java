@@ -26,22 +26,15 @@ public class DemoApplication {
 		return String.format("Hello %s!", name);
 	}
 
-	@GetMapping("/counttables")
-	public String counttables(@RequestParam(value = "url", defaultValue = "https://example.com") String url){
+	@GetMapping("/read-website")
+	public String readwebsite(@RequestParam(value = "url", defaultValue = "https://example.com") String url){
 		try {
-			URL webpage = new URL(url);
-			Scanner sc = new Scanner(webpage.openStream());
-
-			int count = 0;
-
-			Pattern p = Pattern.compile("<[tT]able>");
-			while(sc.findWithinHorizon(p, 0) != null)
-				++count;
-
+			TableSearcher ts = new TableSearcher(url);
+			int count = ts.countTables();
 			return String.format("Tables = %d", count);
 		}
 		catch(Exception e){
-			return "Oops! Something went wrong...\n" + e.getMessage();
+			return "Oops! Something went wrong...\n ----- " + e.getMessage();
 		}
 
 	}

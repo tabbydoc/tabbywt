@@ -1,13 +1,5 @@
-package com.example.demo;
+package com.example.demo.tmp_stuff;
 
-
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 //public class CountElementHandlerSax extends DefaultHandler {
 //

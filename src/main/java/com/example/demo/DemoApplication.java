@@ -29,8 +29,8 @@ public class DemoApplication {
 	@GetMapping("/read-website")
 	public String readwebsite(@RequestParam(value = "url", defaultValue = "https://example.com") String url){
 		try {
-			TableSearcher ts = new TableSearcher(url);
-			int count = ts.countTables();
+			//TableSearcher ts = new TableSearcher(url);
+			int count = 1; //ts.countTables();
 			return String.format("Tables = %d", count);
 		}
 		catch(Exception e){

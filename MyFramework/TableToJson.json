@@ -1,0 +1,51 @@
+{
+  "metaData": {
+    "countRows": 2,
+    "countCols": 2,
+    "countCells": 4,
+    "title": "test",
+    "unit": "test"
+  },
+  "provenance": {
+    "web_page": "https://developer.mozilla.org/ru/docs/Learn/HTML/Tables/Basics",
+    "html": "\u003ctable\u003e \n \u003ctbody\u003e \n  \u003ctr\u003e \n   \u003cth scope\u003d\"row\"\u003eНачальные условия:\u003c/th\u003e \n   \u003ctd\u003eЗнание основ HTML (читайте \u003ca href\u003d\"/en-US/docs/Learn/HTML/Introduction_to_HTML\"\u003eВведение в HTML - Introduction to HTML\u003c/a\u003e).\u003c/td\u003e \n  \u003c/tr\u003e \n  \u003ctr\u003e \n   \u003cth scope\u003d\"row\"\u003eЦель:\u003c/th\u003e \n   \u003ctd\u003eОбщее знакомство с таблицами HTML.\u003c/td\u003e \n  \u003c/tr\u003e \n \u003c/tbody\u003e \n\u003c/table\u003e"
+  },
+  "cells": [
+    {
+      "id": 1,
+      "row": 2,
+      "col": 2,
+      "rowspan": 0,
+      "colspan": 0,
+      "attribute": 0,
+      "record": 0
+    },
+    {
+      "id": 2,
+      "row": 2,
+      "col": 2,
+      "rowspan": 0,
+      "colspan": 0,
+      "attribute": 0,
+      "record": 0
+    },
+    {
+      "id": 3,
+      "row": 2,
+      "col": 2,
+      "rowspan": 0,
+      "colspan": 0,
+      "attribute": 0,
+      "record": 0
+    },
+    {
+      "id": 4,
+      "row": 2,
+      "col": 2,
+      "rowspan": 0,
+      "colspan": 0,
+      "attribute": 0,
+      "record": 0
+    }
+  ]
+}

@@ -5,7 +5,6 @@ import org.jsoup.nodes.Element;
 import webreduce.data.TableType;
 import webreduce.extraction.mh.TableClassification;
 import webreduce.extraction.mh.features.FeaturesP1;
-import webreduce.extraction.mh.tools.ClassificationResult;
 import webreduce.extraction.mh.tools.TableConvert;
 import weka.classifiers.Classifier;
 import weka.core.Attribute;

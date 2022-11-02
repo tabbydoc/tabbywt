@@ -1,5 +1,8 @@
 package webreduce.extraction.mh;
 
+// TODO
+// delete me, legacy code
+
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;

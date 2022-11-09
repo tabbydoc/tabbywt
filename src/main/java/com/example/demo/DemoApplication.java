@@ -8,12 +8,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import webreduce.data.TableType;
 
 import java.io.*;
 import java.io.FileWriter;
@@ -35,8 +37,8 @@ public class DemoApplication {
 
 
 
-	@GetMapping("/CounttableJsoup")
-	public String counttables(@RequestParam(value = "url", defaultValue = "https://example.com") String url) throws Exception {
+	@GetMapping("/type")
+	public String typeTest(@RequestParam(value = "url", defaultValue = "https://example.com") String url) throws Exception {
 
 
 		Document doc = Jsoup.connect(url).get(); //document – объект документа представляет HTML DOM.
@@ -73,9 +75,30 @@ public class DemoApplication {
 //			System.out.println(ex.getMessage());
 //		}
 
+		StringBuilder sb = new StringBuilder();
+		sb.append(url);
+		sb.append("<br>");
 
-		int count = doc.getElementsByTag("table").size(); //подсчет колличества тегов <table>
-		return String.format("Кол - во тегов " + count+ "\n" );
+		Discriminator discr = new DiscriminatorErebius();
+		TableClassifier tclass = new ClassifierErebius();
+
+		for(Element table : tables){
+			TableType type = discr.classify(table);
+			if(type == TableType.LAYOUT) {
+				sb.append("Layout table<br>");
+			} else {
+				type = tclass.classify(table);
+				sb.append("<br>Type: ");
+				sb.append(type);
+				sb.append("<br>");
+			}
+			sb.append(table);
+		}
+
+		return sb.toString();
+
+//		int count = doc.getElementsByTag("table").size(); //подсчет колличества тегов <table>
+//		return String.format("Кол - во тегов " + count+ "\n" );
 
 	}
 }

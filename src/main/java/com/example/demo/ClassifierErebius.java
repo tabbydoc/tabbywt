@@ -5,7 +5,6 @@ import org.jsoup.nodes.Element;
 import webreduce.data.TableType;
 import webreduce.extraction.mh.TableClassification;
 import webreduce.extraction.mh.features.FeaturesP2;
-import webreduce.extraction.mh.tools.ClassificationResult;
 import webreduce.extraction.mh.tools.TableConvert;
 import weka.classifiers.Classifier;
 import weka.core.Attribute;
@@ -13,7 +12,7 @@ import weka.core.Instance;
 
 import java.io.InputStream;
 
-public class ErebiusClassifier extends TableClassifier {
+public class ClassifierErebius extends TableClassifier {
     private static final String MODEL_PATH = "/RandomForest_P2.mdl";
     private TableConvert tableConvert;
     private Classifier classifier2;
@@ -21,7 +20,7 @@ public class ErebiusClassifier extends TableClassifier {
     private Attribute classAttr2;
     private double layoutVal, relationVal, entityVal, matrixVal, noneVal;
 
-    public ErebiusClassifier(){
+    public ClassifierErebius(){
         try {
             classifier2 = loadModelFromClasspath(MODEL_PATH);
         } catch (Exception e){

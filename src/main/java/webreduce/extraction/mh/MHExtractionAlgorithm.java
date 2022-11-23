@@ -76,7 +76,7 @@ public class MHExtractionAlgorithm extends BasicExtractionAlgorithm {
 				continue;
 			}
 
-			// there should be header cells
+			// there should be header oneWayCells
 			Boolean has_header = true;
 			Elements headerCells = table.select("th");
 			if (headerCells.size() == 0) {

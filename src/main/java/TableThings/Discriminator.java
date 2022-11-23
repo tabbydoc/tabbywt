@@ -1,4 +1,4 @@
-package com.example.demo;
+package TableThings;
 
 import webreduce.data.TableType;
 

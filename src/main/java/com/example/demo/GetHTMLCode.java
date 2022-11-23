@@ -25,7 +25,7 @@ public abstract class GetHTMLCode {
             }
         }catch(Exception e){
             e.getStackTrace();
-            System.out.println("Connection timeOut......");
+            System.out.println("Connection timeout......");
         }finally{
             if(null != br){
                 try

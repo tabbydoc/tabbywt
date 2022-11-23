@@ -147,7 +147,7 @@ public class BasicExtractionAlgorithm implements ExtractionAlgorithm {
 				continue;
 			}
 
-			// there should be header cells
+			// there should be header oneWayCells
 			Boolean has_header = true;
 			Elements headerCells = table.select("th");
 			if (headerCells.size() == 0) {
@@ -202,7 +202,7 @@ public class BasicExtractionAlgorithm implements ExtractionAlgorithm {
 
 	protected Optional<Dataset> doExtract(Element table, Elements trs,
 			int mostFrequentColCount) {
-		// remove sparse tables (more than X% null cells)
+		// remove sparse tables (more than X% null oneWayCells)
 		int tableSize = trs.size() * mostFrequentColCount;
 		Optional<Dataset> r = asRelation(trs, mostFrequentColCount,
 				((int) (TABLE_MAX_SPARSENESS * tableSize)),
@@ -219,10 +219,10 @@ public class BasicExtractionAlgorithm implements ExtractionAlgorithm {
 		String[][] relation = new String[numCols][numRows];
 		for (int r = 0; r < numRows; r++) {
 			int c;
-			Elements cells = input.get(r).select("td, th");
-			int td_size = cells.size();
+			Elements oneWayCells = input.get(r).select("td, th");
+			int td_size = oneWayCells.size();
 			for (c = 0; c < td_size; c++) {
-				Element cell = cells.get(c);
+				Element cell = oneWayCells.get(c);
 				Elements links = cell.select("a");
 				if (links.size() > 0)
 					linkCounter += 1;
@@ -269,7 +269,7 @@ public class BasicExtractionAlgorithm implements ExtractionAlgorithm {
 		int numRows = input.size();
 		for (int i = 1; i < numRows; i++) {
 			Elements tds = input.get(i).children();
-			// no cells or first cell is not th
+			// no oneWayCells or first cell is not th
 			if (tds.size() == 0 || !tds.get(0).tag().getName().equals("th")) {
 				fc = false;
 				break;

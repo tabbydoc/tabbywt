@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import TableThings.Discriminator;
 import com.google.common.base.Optional;
 import org.jsoup.nodes.Element;
 import webreduce.data.TableType;
@@ -12,7 +13,7 @@ import weka.core.Instance;
 
 import java.io.InputStream;
 
-public class ErebiusDiscriminator extends Discriminator {
+public class DiscriminatorErebius extends Discriminator {
     private static final String MODEL_PATH = "/SimpleCart_P1.mdl";
     private TableConvert tableConvert;
     private Classifier classifier;
@@ -20,7 +21,7 @@ public class ErebiusDiscriminator extends Discriminator {
     private Attribute classAttr1;
     private double layoutVal;
 
-    public ErebiusDiscriminator(){
+    public DiscriminatorErebius(){
         try {
             classifier = loadModelFromClasspath(MODEL_PATH);
         } catch (Exception e){

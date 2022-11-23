@@ -21,7 +21,7 @@ public class TableConvert {
 
 	// converts a 'table'-DOM-Element to a 2D array of Elements representing
 	// the table
-	// single cells can then be accessed via result[row][col]
+	// single oneWayCells can then be accessed via result[row][col]
 	public Optional<Element[][]> toTable(Element table) {
 		if (!table.nodeName().equals("table")) {
 			return Optional.absent();
@@ -61,9 +61,9 @@ public class TableConvert {
 				column_computation:
 				for (Element currentCell : colCells) {
 
-					// skip cells which have been marked in result array
+					// skip oneWayCells which have been marked in result array
 					// (entries in result should always be null unless
-					// manipulated beforehand, which means those cells
+					// manipulated beforehand, which means those oneWayCells
 					// have been reserved for spans)
 
 					// this will throw an IndexOutOfBounds exception if the table
@@ -89,7 +89,7 @@ public class TableConvert {
 						colspan = Integer.valueOf(currentCell.attr("colspan"));
 					}
 
-					// if colspan > 1 then insert blank cells into the result array
+					// if colspan > 1 then insert blank oneWayCells into the result array
 					// (= skip their position in the result array)
 					if (colspan > 1) {
 						int emptyCells = colspan - 1;
@@ -101,7 +101,7 @@ public class TableConvert {
 						rowspan = Integer.valueOf(currentCell.attr("rowspan"));
 					}
 
-					// if rowspan > 1 then mark cells in following rows which are affected
+					// if rowspan > 1 then mark oneWayCells in following rows which are affected
 					if (rowspan > 1) {
 						for (int i = 1; i < rowspan; i++) {
 							if (i >= tableHeight) break; // ignore bad rowspans

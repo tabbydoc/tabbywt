@@ -139,7 +139,7 @@ public class FeaturesP1 {
 				listener.start(tStats);
 			}
 			
-			// iterate cells within row
+			// iterate oneWayCells within row
 			for (tStats.colIndex = 0; tStats.colIndex < tStats.getTableWidth(); tStats.colIndex++) {
 				// onCell event
 				for (AbstractTableListener listener : localListeners) {
@@ -178,7 +178,7 @@ public class FeaturesP1 {
 				listener.start(tStats);
 			}
 			
-			// iterate cells within column
+			// iterate oneWayCells within column
 			for (tStats.rowIndex = 0; tStats.rowIndex < tStats.getTableHeight(); tStats.rowIndex++) {
 				// onCell event
 				for (AbstractTableListener listener : localListeners) {

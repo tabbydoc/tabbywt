@@ -76,22 +76,25 @@ public class DemoApplication {
 //		}
 
 		StringBuilder sb = new StringBuilder();
+		sb.append("<h1>");
 		sb.append(url);
-		sb.append("<br>");
+		sb.append("</h1>\n\n");
 
 		Discriminator discr = new DiscriminatorErebius();
 		TableClassifier tclass = new ClassifierErebius();
 
 		for(Element table : tables){
 			TableType type = discr.classify(table);
+			sb.append("\n\n\t<h2>");
 			if(type == TableType.LAYOUT) {
-				sb.append("Layout table<br>");
+				sb.append("Layout table");
 			} else {
 				type = tclass.classify(table);
-				sb.append("<br>Type: ");
+				sb.append("Type: ");
 				sb.append(type);
-				sb.append("<br>");
 			}
+			sb.append("</h2>\n");
+
 			sb.append(table);
 		}
 

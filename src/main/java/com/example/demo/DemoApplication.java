@@ -66,7 +66,7 @@ public class DemoApplication {
 				for(int j = 0; j < tb[i].length; ++j){
 					sb.append("\t\t[").append(j).append("> ");
 					if(tb[i][j] != null)
-						sb.append(tb[i][j].toString());
+						sb.append(tb[i][j].text());
 
 					else
 						sb.append("[NULL]");

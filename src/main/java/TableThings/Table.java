@@ -3,12 +3,13 @@ package TableThings;
 import TableCells.Cell;
 import com.example.demo.Metadata;
 import com.example.demo.Provenance;
+import webreduce.data.TableType;
 
 import java.util.List;
 
 public final class Table {
 
-    private Metadata type;
+    private TableType type;
     private Metadata metaData;
     private Provenance provenance;
     private List<? extends Cell> Cells;

@@ -9,7 +9,7 @@ public abstract class Cell {
     protected  String text;
 
     protected  enum Type{
-        Lable,
+        Label,
         Entry
     }
 

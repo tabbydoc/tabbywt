@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-public abstract class ElementToOneWayTable {
+public abstract class ElementToTable {
 
     public static Table transfer(Element element, String urlAddres) {
         // считаем количество строк (нужно дописать для варианта с колспан ровспан)

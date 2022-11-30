@@ -51,7 +51,7 @@ public class DemoApplication {
         {
             discrimenatedTables.put(tableForuse, discriminator.classify(tableForuse));
         }
-        //TODO классификация(?)
+        //TODO классификация(есть)
         Map<Element, TableType> bufer = new HashMap<>();
         Map<Element, TableType> classifyedTables = new HashMap<>();
         TableClassifier classificator = new ClassifierErebius();
@@ -59,13 +59,15 @@ public class DemoApplication {
 
 
 for(Map.Entry<Element, TableType> entry : bufer.entrySet()) {
-    if (entry.getValue() == TableType.RELATION){
+    if (entry.getValue() == TableType.RELATION || entry.getValue() == TableType.ENTITY ){
         classifyedTables.put(entry.getKey(),entry.getValue());
     }
 }
-
-        //TODO упоковать в map
+// пока получается, что в classifyedTables лежат ток односторонние таблицы
+//        Можно завести отдельную мапу для многосторонних таблиц
+        //TODO упоковать в map(есть)
 return classifyedTables;
+
     }
 
 

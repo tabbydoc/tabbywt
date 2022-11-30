@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Optional;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.jsoup.Jsoup;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import webreduce.data.TableType;
+import webreduce.extraction.mh.tools.TableConvert;
 
 import java.io.*;
 import java.io.FileWriter;
@@ -35,7 +37,49 @@ public class DemoApplication {
 		return String.format("Hello %s!", name);
 	}
 
+	@GetMapping("/mytest")
+	public String mytest() throws Exception{
+		String url = "https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)";
+		String htmlResource = GetHTMLCode.getHtmlResourceByURL(url, "UTF-8");
+		Document doc = Jsoup.parse(htmlResource);
 
+		Elements tables = doc.getElementsByTag("table");
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("<h1>").append(url).append("</h1>\n\n");
+
+		Discriminator discr = new DiscriminatorErebius();
+		TableConvert tconv = new TableConvert(2,2);
+
+		for(Element table : tables){
+			TableType type = discr.classify(table);
+			if(type == TableType.LAYOUT) {
+				continue;
+			}
+
+			Element[][] tb = tconv.toTable(table).get();
+
+			sb.append("\n\n[[table]]\n");
+			for(int i = 0; i < tb.length; ++i){
+				sb.append("\t[ROW").append(i).append("]\n");
+				for(int j = 0; j < tb[i].length; ++j){
+					sb.append("\t\t[").append(j).append("> ");
+					if(tb[i][j] != null)
+						sb.append(tb[i][j].toString());
+
+					else
+						sb.append("[NULL]");
+					sb.append("\n");
+				}
+				sb.append("\n");
+			}
+
+			sb.append("[[/table]]");
+		}
+
+		return sb.toString();
+	}
 
 	@GetMapping("/type")
 	public String typeTest(@RequestParam(value = "url", defaultValue = "https://example.com") String url) throws Exception {

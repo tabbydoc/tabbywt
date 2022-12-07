@@ -5,8 +5,8 @@ public final  class OneWayCell extends Cell {
     private int attribute;// optional
     private int record; //optional
 
-    public OneWayCell(int id, int countColumns, int countRows) {
-        super(id,countColumns,countRows );
+    public OneWayCell(int id, int row, int col) {
+        super(id,row,col );
     }
 
 

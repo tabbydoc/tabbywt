@@ -5,6 +5,7 @@ import com.example.demo.ElementToTable;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import webreduce.data.TableType;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,11 +31,11 @@ public abstract class OneWayCellClissifier {
         }
 
         // отправим некоторые характеристики в ячейки
-        for (Table table: RelationalTables){
-List<OneWayCell> cells = table.getCells();
-            for (OneWayCell oneWayCell: cells) {
-                if (oneWayCell.getRow() ==1){
-
+        for (Table table : RelationalTables) {
+            List<OneWayCell> cells = (List<OneWayCell>) table.getCells();
+            for (OneWayCell oneWayCell : cells) {
+                if (oneWayCell.getRow() == 1) {
+oneWayCell.setAttribute(5);
                 }
             }
         }

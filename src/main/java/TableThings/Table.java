@@ -14,6 +14,8 @@ public final class Table {
     private Provenance provenance;
     private List<? extends Cell> Cells;
 
+
+
     public Table(Metadata metaData, Provenance provenance, List<Cell> cells) {
         this.metaData = metaData;
         this.provenance = provenance;

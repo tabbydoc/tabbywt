@@ -21,19 +21,15 @@ import java.util.Map;
 @SpringBootApplication
 @RestController
 public class DemoApplication {
-
+static  String url = new String();
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
 
-    @GetMapping("/hello")
-    public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return String.format("Hello %s!", name);
-    }
 
     @GetMapping("/extract")
     public Map<Element, TableType> extract(@RequestParam(value = "url", defaultValue = "") String url) throws Exception {
-
+this.url = url;
 
         //TODO фильтр (есть)
 
@@ -53,21 +49,20 @@ public class DemoApplication {
         }
         //TODO классификация(есть)
         Map<Element, TableType> bufer = new HashMap<>();
-        Map<Element, TableType> classifyedTables = new HashMap<>();
+        Map<Element, TableType> classifyedOneWayTables = new HashMap<>();
         TableClassifier classificator = new ClassifierErebius();
         discrimenatedTables.forEach((k,v)-> bufer.put(k,classificator.classify(k)));
 
 
 for(Map.Entry<Element, TableType> entry : bufer.entrySet()) {
     if (entry.getValue() == TableType.RELATION || entry.getValue() == TableType.ENTITY ){
-        classifyedTables.put(entry.getKey(),entry.getValue());
+        classifyedOneWayTables.put(entry.getKey(),entry.getValue());
     }
 }
-// пока получается, что в classifyedTables лежат ток односторонние таблицы
+// пока получается, что в classifyedOneWayTables лежат ток односторонние таблицы
 //        Можно завести отдельную мапу для многосторонних таблиц
         //TODO упоковать в map(есть)
-return classifyedTables;
-
+return classifyedOneWayTables;
     }
 
 

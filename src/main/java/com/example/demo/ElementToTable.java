@@ -39,7 +39,7 @@ public abstract class ElementToTable {
         //текст из ячеек и тип таблицы или чёт вроде того
         for (int i = 0; i < countRows; i++) {
             for (int j = 0; j < countColumns; j++) {
-                oneWayCells.add(new OneWayCell(id, i, j));
+                oneWayCells.add(new OneWayCell(id, i, j)); //создали ячейку с айдишником и номером строки и столбца
                 id += 1;
             }
         }

@@ -23,20 +23,23 @@ public abstract class OneWayCellClissifier {
             }
         }
 
-        // создаем список для Table
+        // создаем список для таблиц типа Relational Table
         ArrayList<Table> RelationalTables = new ArrayList<>();
 
         for (Element element : RealationalElements) {
             RelationalTables.add(ElementToTable.transfer(element));
         }
 
+        int counter = 0;//счетчик для
         // отправим некоторые характеристики в ячейки
         for (Table table : RelationalTables) {
             List<OneWayCell> cells = (List<OneWayCell>) table.getCells();
             for (OneWayCell oneWayCell : cells) {
                 if (oneWayCell.getRow() == 1) {
-oneWayCell.setAttribute(5);
+oneWayCell.setAttribute(7000 + counter);
+counter++;
                 }
+oneWayCell.setRecord(oneWayCell.getCol()); // отправили record
             }
         }
     }

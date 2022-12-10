@@ -39,7 +39,7 @@ public abstract class OneWayCellClissifier {
 oneWayCell.setAttribute(7000 + counter);
 counter++;
                 }
-oneWayCell.setRecord(oneWayCell.getCol()); // отправили record
+oneWayCell.setRecord(oneWayCell.getRow()); // отправили record
             }
         }
     }

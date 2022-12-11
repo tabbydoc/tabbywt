@@ -36,11 +36,31 @@ public abstract class OneWayCellClissifier {
             List<OneWayCell> cells = (List<OneWayCell>) table.getCells();
             for (OneWayCell oneWayCell : cells) {
                 if (oneWayCell.getRow() == 1) {
-oneWayCell.setAttribute(7000 + counter);
-counter++;
+                    oneWayCell.setAttribute(7000 + counter);
+                    counter++;
                 }
-oneWayCell.setRecord(oneWayCell.getRow()); // отправили record
+                if (oneWayCell.getRow() != 1){
+                    oneWayCell.setRecord(oneWayCell.getRow()); // отправили record
+            }
             }
         }
+        // создаем список для таблиц типа Entity Table
+        ArrayList<Table> EntityTables = new ArrayList<>();
+
+        for (Element element : EntityElements) {
+            EntityTables.add(ElementToTable.transfer(element));
+        }
+
+        for (Table table : EntityTables) {
+            List<OneWayCell> EntityCells = (List<OneWayCell>) table.getCells();
+            for (OneWayCell oneWayCell : EntityCells) {
+                if (oneWayCell.getCol() == 1) {
+                    oneWayCell.setAttribute(7000 + counter);
+                    counter++;
+                }
+                oneWayCell.setRecord(oneWayCell.getRow()); // отправили record
+            }
+        }
+
     }
 }

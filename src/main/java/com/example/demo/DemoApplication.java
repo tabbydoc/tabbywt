@@ -66,11 +66,11 @@ public class DemoApplication {
 //        Можно завести отдельную мапу для многосторонних таблиц
 
 //        TODO перевести в Table
-        List<ArrayList<Table>> Tables = convertToTable(classifyedOneWayTables);
+        List<Table> tableList = convertToTable(classifyedOneWayTables);
 
 //        TODO классифицировать ячейки в Table
 
-        OneWayCellClissifier.classify(Tables);
+        OneWayCellClissifier.classify(tableList);
 
 
         // TODO упоковать в map(есть)
@@ -78,34 +78,19 @@ public class DemoApplication {
 
     }
 
-// Метод конвертации классифицированых таблиц в Table
-    public static List<ArrayList<Table>> convertToTable(Map<Element, TableType> map) {
-        Elements RealationalElements = new Elements();
-        Elements EntityElements = new Elements();
+    // Метод конвертации классифицированых таблиц в Table
+    public static List<Table> convertToTable(Map<Element, TableType> map) {
+        Elements TablesElements = new Elements();
+List<Table> tables = new ArrayList<>();
 
         //Заполняем списки для relational и для entity - это получается списки с таблицами
         for (Map.Entry<Element, TableType> entry : map.entrySet()) {
-            if (entry.getValue() == TableType.RELATION) {
-                RealationalElements.add(entry.getKey());
-            } else if (entry.getValue() == TableType.ENTITY) {
-                EntityElements.add(entry.getKey());
-            }
+            TablesElements.add(entry.getKey());
         }
 
-        // создаем список для таблиц типа Relational Table
-        ArrayList<Table> RelationalTables = new ArrayList<>();
-        //заполняем RelationalTables
-        for (Element element : RealationalElements) {
-            RelationalTables.add(ElementToTable.transfer(element));
+        for (Element tab: TablesElements) {
+            tables.add(ElementToTable.transfer(tab));
         }
-
-//создаем список для таблиц типа Entity Table
-        ArrayList<Table> EntityTables = new ArrayList<>();
-        //заполняем RelationalTables
-        for (Element element : EntityElements) {
-            EntityTables.add(ElementToTable.transfer(element));
+            return tables;
         }
-        return List.of(RelationalTables, EntityTables);
     }
-
-}

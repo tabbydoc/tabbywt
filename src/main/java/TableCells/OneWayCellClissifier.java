@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class OneWayCellClissifier {
-    public static void classify(List<ArrayList<Table>> ListTables) {
+    public static void classify(List<Table> tables) {
 
 
         // создаем список для таблиц типа Relational Table

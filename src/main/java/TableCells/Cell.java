@@ -10,7 +10,9 @@ public abstract class Cell {
 
     protected  enum Type{
         Label,
-        Entry
+        Entry,
+        Attrubute,
+        Value
     }
 
     Type type;

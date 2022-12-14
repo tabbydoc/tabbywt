@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import TableCells.OneWayCellClissifier;
 import TableThings.ClassifierErebius;
 import TableThings.Discriminator;
 import TableThings.Table;
@@ -70,7 +69,7 @@ public class DemoApplication {
 
 //        TODO классифицировать ячейки в Table
 
-        OneWayCellClissifier.classify(tableList);
+
 
 
         // TODO упоковать в map(есть)

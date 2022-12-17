@@ -71,7 +71,6 @@ public class DemoApplication {
 
 
 
-
         // TODO упоковать в map(есть)
         return classifyedOneWayTables;
 
@@ -80,16 +79,16 @@ public class DemoApplication {
     // Метод конвертации классифицированых таблиц в Table
     public static List<Table> convertToTable(Map<Element, TableType> map) {
         Elements TablesElements = new Elements();
-List<Table> tables = new ArrayList<>();
+        List<Table> tables = new ArrayList<>();
 
         //Заполняем списки для relational и для entity - это получается списки с таблицами
         for (Map.Entry<Element, TableType> entry : map.entrySet()) {
             TablesElements.add(entry.getKey());
         }
-
-        for (Element tab: TablesElements) {
+// Переводим элементную таблицу в класс Table
+        for (Element tab : TablesElements) {
             tables.add(ElementToTable.transfer(tab));
         }
-            return tables;
-        }
+        return tables;
     }
+}

@@ -8,7 +8,7 @@ public abstract class Cell {
     protected  int colspan;// optional
     protected  String text;
 
-    protected  enum Type{
+    protected enum Type{
         Label,
         Entry,
         Attrubute,

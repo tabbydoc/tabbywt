@@ -45,6 +45,9 @@ public final class Table {
         this.provenance = provenance;
     }
 
+    public TableType getType() {
+        return type;
+    }
 
     @Override
     public String toString() {

@@ -15,7 +15,7 @@ public abstract class OneWayCellClissifier {
             List<OneWayCell> cells = (List<OneWayCell>) table.getCells();
             for (int i = 0; i < cells.size() ; i++) {
                 if (cells.get(i).getRow() == 1){
-                    
+
                 }
             }
         }

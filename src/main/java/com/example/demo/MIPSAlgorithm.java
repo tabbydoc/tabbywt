@@ -3,6 +3,7 @@ package com.example.demo;
 import com.google.common.base.Optional;
 import org.jsoup.nodes.Element;
 
+import org.jsoup.parser.Tag;
 import webreduce.extraction.mh.tools.TableConvert;
 
 /* находит критические точки в таблице,
@@ -24,8 +25,40 @@ public class MIPSAlgorithm {
             return new TableCoordinates(0, 0);
         }
 
+        spanThingy(convTable.get());
+
         TableCoordinates cc2 = search2arr(convTable.get());
         return cc2;
+    }
+
+    public void spanThingy(Element table[][]){
+        // дублируем ячейки с параметром col/rowspan
+        int ii = table.length;
+        int jj = table[0].length;
+
+        System.out.format("~!~!~ %d %d\n", ii, jj);
+
+        for(int i = 0; i < ii; ++i){
+            for(int j = 0; j < jj; ++j){
+                if(table[i][j] == null) continue;
+                if(table[i][j].hasAttr("rowspan")){
+                    int kk = Integer.parseInt(table[i][j].attr("rowspan")) + i;
+                    kk = Math.min(kk, ii);
+                    for(int k = i+1; k < kk; ++k){
+                        table[k][j] = table[i][j].clone();
+                        table[k][j].removeAttr("rowspan");
+                    }
+                }
+                if(table[i][j].hasAttr("colspan")){
+                    int kk = Integer.parseInt(table[i][j].attr("colspan")) + j;
+                    kk = Math.min(kk, jj);
+                    for(int k = j+1; k < kk; ++k){
+                        table[i][k] = table[i][j].clone();
+                        table[i][k].removeAttr("colspan");
+                    }
+                }
+            }
+        }
     }
 
     private boolean hasDuplicateRows(Element table[][], int x1, int y1, int x2, int y2){
@@ -51,7 +84,7 @@ public class MIPSAlgorithm {
 
     private boolean areColumnsEqual(Element table[][], int c1, int c2, int x1, int x2){
         for(int i = x1; i <= x2; ++i){
-            if(table[i][c1] != table[i][c2])
+            if(table[i][c1].text() != table[i][c2].text())
                 return false;
         }
         return true;

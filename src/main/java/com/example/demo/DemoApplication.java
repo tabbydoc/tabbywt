@@ -52,6 +52,8 @@ public class DemoApplication {
 		Discriminator discr = new DiscriminatorErebius();
 		TableConvert tconv = new TableConvert(2,2);
 
+		MIPSAlgorithm mips = new MIPSAlgorithm();
+
 		for(Element table : tables){
 			TableType type = discr.classify(table);
 			if(type == TableType.LAYOUT) {
@@ -59,6 +61,7 @@ public class DemoApplication {
 			}
 
 			Element[][] tb = tconv.toTable(table).get();
+			mips.spanThingy(tb);
 
 			sb.append("\n\n[[table]]\n");
 			for(int i = 0; i < tb.length; ++i){
@@ -66,7 +69,7 @@ public class DemoApplication {
 				for(int j = 0; j < tb[i].length; ++j){
 					sb.append("\t\t[").append(j).append("> ");
 					if(tb[i][j] != null)
-						sb.append(tb[i][j].text());
+						sb.append(tb[i][j].toString());
 
 					else
 						sb.append("[NULL]");

@@ -3,11 +3,11 @@ package com.example.demo;
 // если уже есть класс, который описывает координаты ячейки, замените им этот класс
 
 public class TableCoordinates {
-    public int x;
-    public int y;
+    public int i;
+    public int j;
 
-    public TableCoordinates(int x, int y){
-        this.x = x;
-        this.y = y;
+    public TableCoordinates(int i, int j){
+        this.i = i;
+        this.j = j;
     }
 }

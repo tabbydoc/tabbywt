@@ -6,6 +6,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.parser.Tag;
 import webreduce.extraction.mh.tools.TableConvert;
 
+import java.util.Objects;
+
 /* находит критические точки в таблице,
  * выделяет квадрат с загаловками (headers, CC2)
  * и с данными (data, CC3)
@@ -25,43 +27,79 @@ public class MIPSAlgorithm {
             return new TableCoordinates(0, 0);
         }
 
-        spanThingy(convTable.get());
-
         TableCoordinates cc2 = search2arr(convTable.get());
         return cc2;
     }
 
-    public void spanThingy(Element table[][]){
+    public void spanThingy(Element t[][]){
         // дублируем ячейки с параметром col/rowspan
-        int ii = table.length;
-        int jj = table[0].length;
+        int ii = t.length;
+        int jj = t[0].length;
 
-        System.out.format("~!~!~ %d %d\n", ii, jj);
+        //System.out.format("~!~!~ %d %d\n", ii, jj);
 
         for(int i = 0; i < ii; ++i){
             for(int j = 0; j < jj; ++j){
-                if(table[i][j] == null) continue;
-                if(table[i][j].hasAttr("rowspan")){
-                    int kk = Integer.parseInt(table[i][j].attr("rowspan")) + i;
+                if(t[i][j] == null) continue;
+                if(t[i][j].hasAttr("rowspan")){
+                    int kk = Integer.parseInt(t[i][j].attr("rowspan")) + i;
                     kk = Math.min(kk, ii);
                     for(int k = i+1; k < kk; ++k){
-                        table[k][j] = table[i][j].clone();
-                        table[k][j].removeAttr("rowspan");
+                        t[k][j] = t[i][j].clone();
+                        t[k][j].removeAttr("rowspan");
                     }
                 }
-                if(table[i][j].hasAttr("colspan")){
-                    int kk = Integer.parseInt(table[i][j].attr("colspan")) + j;
+                if(t[i][j].hasAttr("colspan")){
+                    int kk = Integer.parseInt(t[i][j].attr("colspan")) + j;
                     kk = Math.min(kk, jj);
                     for(int k = j+1; k < kk; ++k){
-                        table[i][k] = table[i][j].clone();
-                        table[i][k].removeAttr("colspan");
+                        t[i][k] = t[i][j].clone();
+                        t[i][k].removeAttr("colspan");
                     }
                 }
             }
         }
     }
 
-    private boolean hasDuplicateRows(Element table[][], int x1, int y1, int x2, int y2){
+    private boolean areColumnsEqual(Element t[][], int c1, int c2, int y1, int y2){
+        for(int i = y1; i <= y2; ++i){
+            if(!t[i][c1].text().equals( t[i][c2].text() ))
+                return false;
+        }
+        return true;
+    }
+
+    private boolean areRowsEqual(Element t[][], int r1, int r2, int x1, int x2){
+        for(int j = x1; j <= x2; ++j){
+            if(!t[r1][j].text().equals( t[r2][j].text() ))
+                return false;
+        }
+        return true;
+    }
+
+    private boolean hasDuplicateRows(Element table[][], int y1, int x1, int y2, int x2){
+        if(x1 > x2){
+            int tt = x1;
+            x1 = x2;
+            x2 = tt;
+        }
+        if(y1 > y2){
+            int tt = y1;
+            y1 = y2;
+            y2 = tt;
+        }
+
+        for(int i = y1; i <= y2; ++i){
+            for(int j = i+1; j <= y2; ++j){
+                if(areRowsEqual(table, i, j, x1, x2))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+
+    private boolean hasDuplicateColumns(Element table[][], int y1, int x1, int y2, int x2){
         if(x1 > x2){
             int t = x1;
             x1 = x2;
@@ -75,35 +113,7 @@ public class MIPSAlgorithm {
 
         for(int i = x1; i <= x2; ++i){
             for(int j = i + 1; j <= x2; ++j) {
-                if (table[i] == table[j])
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean areColumnsEqual(Element table[][], int c1, int c2, int x1, int x2){
-        for(int i = x1; i <= x2; ++i){
-            if(table[i][c1].text() != table[i][c2].text())
-                return false;
-        }
-        return true;
-    }
-    private boolean hasDuplicateColumns(Element table[][], int x1, int y1, int x2, int y2){
-        if(x1 > x2){
-            int t = x1;
-            x1 = x2;
-            x2 = t;
-        }
-        if(y1 > y2){
-            int t = y1;
-            y1 = y2;
-            y2 = t;
-        }
-
-        for(int i = y1; i <= y2; ++i){
-            for(int j = i + 1; j <= y2; ++j) {
-                if (areColumnsEqual(table, i, j, x1, x2))
+                if (areColumnsEqual(table, i, j, y1, y2))
                     return true;
             }
         }
@@ -111,9 +121,11 @@ public class MIPSAlgorithm {
     }
 
     // MIPS алгоритм, переписанный из статьи
-    private TableCoordinates search2arr(Element table[][]){
-        int rmax = table.length,        // CC4 -- (Rmax, Cmax)
-            cmax = table[rmax].length;
+    public TableCoordinates search2arr(Element table[][]){
+        spanThingy(table);
+
+        int rmax = table.length - 1,        // CC4 -- (Rmax, Cmax)
+            cmax = table[rmax].length - 1;
         int r1 = 1,     //CC1 -- (r1, c1)
             c1 = 1;
         int r2 = (rmax - 1),  //CC2
@@ -133,9 +145,9 @@ public class MIPSAlgorithm {
                 ++c2;
                 rightflag = true;
                 if(upflag && rightflag){
-                    int dataarea = (rmax - r2 + 1) * (cmax - c2 + 1);
-                    if(dataarea > maxarea){
-                        maxarea = dataarea;
+                    int dataArea = (rmax - r2 + 1) * (cmax - c2 + 1);
+                    if(dataArea > maxarea){
+                        maxarea = dataArea;
                         // cc2 = (r2, c2)
                     }
                     upflag = false;

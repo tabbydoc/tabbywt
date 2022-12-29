@@ -91,4 +91,9 @@ public class DemoApplication {
         }
         return tables;
     }
+
+    @GetMapping("/LocalCheking")
+    public void LocalChek(@RequestParam(value = "url", defaultValue = "") String url) throws Exception {
+        
+    }
 }

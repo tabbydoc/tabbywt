@@ -1,12 +1,11 @@
 package com.example.demo;
 
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.Arrays;
 
 
-public abstract class FIlter {
+public abstract class   FIlter {
 
     // В этом методе фильтруются таблицы по колличеству колонок, строк и по наличию тега
 //    table нутри других таблиц

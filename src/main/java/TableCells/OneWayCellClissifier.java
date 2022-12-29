@@ -28,12 +28,19 @@ public abstract class OneWayCellClissifier {
                     }
                 }
 
+                //присваиваем атрибуты клеткам
                 for (int i = 0; i < firstCells.size(); i++) {
                     for (int j = 0; j < cells.size() ; j++) {
                         if (cells.get(j).getCol() == firstCells.get(i).getCol()){
                             cells.get(j).setAttribute(firstCells.get(i).getId());
                         }
                     }
+                }
+// присваиваем record клеткам
+                int temp;
+                for (int i = 0; i < cells.size(); i++) {
+                    temp = cells.get(i).getRow();
+                    cells.get(i).setRecord(temp);
                 }
 
             }

@@ -7,32 +7,30 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public abstract class GetHTMLCode {
-    public static String getHtmlResourceByURL(String url,String encoding){
+    public static String getHtmlResourceByURL(String url, String encoding) {
         StringBuffer sb = new StringBuffer();
         URL urlObj = null;
         URLConnection uc = null;
         BufferedReader br = null;
 
-        try{
+        try {
             // Установить сетевое соединение
             urlObj = new URL(url);
             // Открываем сетевое соединение
             uc = urlObj.openConnection();
-            br = new BufferedReader(new InputStreamReader(uc.getInputStream(),encoding));
+            br = new BufferedReader(new InputStreamReader(uc.getInputStream(), encoding)); //сюда это не относится, просто берём нужный нам файл и запускаем его в stream
             String tempLine = null; // Временная переменная (то есть временный файл)
-            while((tempLine=br.readLine())!=null){
-                sb.append (tempLine + "\n"); // Автоматически переносится после чтения строки
+            while ((tempLine = br.readLine()) != null) {
+                sb.append(tempLine + "\n"); // Автоматически переносится после чтения строки
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.getStackTrace();
             System.out.println("Connection timeout......");
-        }finally{
-            if(null != br){
-                try
-                {
+        } finally {
+            if (null != br) {
+                try {
                     br.close();
-                } catch (IOException e)
-                {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }

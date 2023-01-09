@@ -36,7 +36,6 @@ public class DemoApplication {
         SpringApplication.run(DemoApplication.class, args);
     }
 
-
     @GetMapping("/extract")
     public Map<Element, TableType> extract(@RequestParam(value = "url", defaultValue = "") String url) throws Exception {
         this.url = url;
@@ -76,7 +75,6 @@ public class DemoApplication {
 //        TODO классифицировать ячейки в Table
 
 
-
         // TODO упоковать в map(есть)
         return classifyedOneWayTables;
 
@@ -100,8 +98,9 @@ public class DemoApplication {
 
     @GetMapping("/LocalCheking")
     public void LocalChek(@RequestParam(value = "url", defaultValue = "") String url) throws Exception {
-readFile();
+        readFile();
     }
+
     public static void readFile() throws IOException {
 
         // read a file
@@ -116,8 +115,6 @@ readFile();
         // convert the byte array into a String
         String data = new String(dataAsBytes, StandardCharsets.UTF_8);
 
-        // print the content
-        System.out.println(data);
 
     }
 }

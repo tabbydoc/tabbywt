@@ -134,9 +134,11 @@ public class MIPSAlgorithm {
                 upflag    = false;
         int maxarea = 0;
 
+        TableCoordinates cc2 = new TableCoordinates(0,0);
+
         while(c2 < cmax && r2 >= r1){
             if(!hasDuplicateRows(table, r2+1, c1, rmax, c2) &&
-               !hasDuplicateColumns(table, r1, c2+1, r2-1, cmax))
+               !hasDuplicateColumns(table, r1, c2+1, r2-1, cmax)) // r2-1? не ошибка ли?
             {
                 --r2;
                 upflag = true;
@@ -144,18 +146,18 @@ public class MIPSAlgorithm {
             } else {
                 ++c2;
                 rightflag = true;
-                if(upflag && rightflag){
+                if(upflag){ // upflag == rightflag == true
+                    // запоминается точка с наибольшей площадью данных (макс. лево-верхняя)
                     int dataArea = (rmax - r2 + 1) * (cmax - c2 + 1);
                     if(dataArea > maxarea){
                         maxarea = dataArea;
-                        // cc2 = (r2, c2)
+                        cc2 = new TableCoordinates(r2, c2);
                     }
                     upflag = false;
                 }
             }
         }
 
-        // надеюсь, что оно работает
-        return new TableCoordinates(r2, c2);
+        return cc2;
     }
 }

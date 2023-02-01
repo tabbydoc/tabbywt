@@ -40,7 +40,7 @@ public class DemoApplication {
 	@GetMapping("/mytest")
 	public String mytest() throws Exception{
 		//String url = "https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)";
-		String url = "file:///home/ilya/Downloads/C10002.html";
+		String url = "file:///home/ilya/Downloads/convertcsv.htm";
 		String htmlResource = GetHTMLCode.getHtmlResourceByURL(url, "UTF-8");
 		Document doc = Jsoup.parse(htmlResource);
 
@@ -62,8 +62,10 @@ public class DemoApplication {
 			}
 
 			Element[][] tb = tconv.toTable(table).get();
-			TableCoordinates cc2 = new TableCoordinates(0,0);
-			cc2 = mips.search2arr(tb);
+			TableCoordinates cc2 = new TableCoordinates(999,999);
+			try {
+				cc2 = mips.search2arr(tb);
+			} catch (Exception e) {}
 
 			sb.append("\n\n[[table]]\n");
 			sb.append(String.format("cc2: %d %d\n", cc2.i, cc2.j));

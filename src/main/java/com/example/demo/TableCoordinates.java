@@ -7,6 +7,10 @@ public class TableCoordinates {
     public int j;
 
     public TableCoordinates(int i, int j){
+        set(i, j);
+    }
+
+    public void set(int i, int j){
         this.i = i;
         this.j = j;
     }

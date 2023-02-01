@@ -78,6 +78,7 @@ public class MIPSAlgorithm {
     }
 
     private boolean hasDuplicateRows(Element table[][], int y1, int x1, int y2, int x2){
+        /*
         if(x1 > x2){
             int tt = x1;
             x1 = x2;
@@ -87,12 +88,14 @@ public class MIPSAlgorithm {
             int tt = y1;
             y1 = y2;
             y2 = tt;
-        }
+        }*/
 
         for(int i = y1; i <= y2; ++i){
             for(int j = i+1; j <= y2; ++j){
-                if(areRowsEqual(table, i, j, x1, x2))
+                if(areRowsEqual(table, i, j, x1, x2)) {
+                    System.out.format("Dup rows r[%d, %d]c[%d, %d]: %d, %d\n", y1, y2, x1, x2, i, j);
                     return true;
+                }
             }
         }
         return false;
@@ -100,21 +103,14 @@ public class MIPSAlgorithm {
 
 
     private boolean hasDuplicateColumns(Element table[][], int y1, int x1, int y2, int x2){
-        if(x1 > x2){
-            int t = x1;
-            x1 = x2;
-            x2 = t;
-        }
-        if(y1 > y2){
-            int t = y1;
-            y1 = y2;
-            y2 = t;
-        }
+        if(y1 > y2) return false;
 
         for(int i = x1; i <= x2; ++i){
             for(int j = i + 1; j <= x2; ++j) {
-                if (areColumnsEqual(table, i, j, y1, y2))
+                if (areColumnsEqual(table, i, j, y1, y2)) {
+                    System.out.format("Dup cols r[%d, %d]c[%d, %d]: %d, %d\n", y1, y2, x1, x2, i, j);
                     return true;
+                }
             }
         }
         return false;
@@ -126,10 +122,10 @@ public class MIPSAlgorithm {
 
         int rmax = table.length - 1,        // CC4 -- (Rmax, Cmax)
             cmax = table[rmax].length - 1;
-        int r1 = 1,     //CC1 -- (r1, c1)
-            c1 = 1;
-        int r2 = (rmax - 1),  //CC2
-            c2 = 1;
+        int r1 = 0,     //CC1 -- (r1, c1)
+            c1 = 0;
+        int r2 = rmax,  //CC2
+            c2 = 0;
         boolean rightflag = false,
                 upflag    = false;
         int maxarea = 0;
@@ -137,24 +133,27 @@ public class MIPSAlgorithm {
         TableCoordinates cc2 = new TableCoordinates(0,0);
 
         while(c2 < cmax && r2 >= r1){
+            System.out.format("(%d, %d)\n", r2, c2);
             if(!hasDuplicateRows(table, r2+1, c1, rmax, c2) &&
-               !hasDuplicateColumns(table, r1, c2+1, r2-1, cmax)) // r2-1? не ошибка ли?
+               !hasDuplicateColumns(table, r1, c2+1, r2, cmax)) // r2-1? не ошибка ли?
             {
                 --r2;
                 upflag = true;
                 rightflag = false;
             } else {
-                ++c2;
                 rightflag = true;
                 if(upflag){ // upflag == rightflag == true
                     // запоминается точка с наибольшей площадью данных (макс. лево-верхняя)
                     int dataArea = (rmax - r2 + 1) * (cmax - c2 + 1);
+                    System.out.format("cc2 candidate: (%d, %d)\n", r2, c2);
                     if(dataArea > maxarea){
                         maxarea = dataArea;
-                        cc2 = new TableCoordinates(r2, c2);
+                        cc2.set(r2, c2);
                     }
                     upflag = false;
                 }
+                ++c2; // это было первым действием в алгоритме,
+                      // но что-то мне подсказывает, что его надо перенести вниз
             }
         }
 

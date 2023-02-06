@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import webreduce.data.TableType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @SpringBootApplication
@@ -31,7 +28,7 @@ public class DemoApplication {
     }
 
     @GetMapping("/extract")
-    public Map<Element, TableType> extract(@RequestParam(value = "url", defaultValue = "") String url) throws Exception {
+    public List<Table> extract(@RequestParam(value = "url", defaultValue = "") String url) throws Exception {
         this.url = url;
 
         //TODO фильтр (есть)
@@ -68,9 +65,10 @@ public class DemoApplication {
 
 //        TODO классифицировать ячейки в Table
 
-
+        System.out.println(Arrays.toString(tableList.toArray()));
         // TODO упоковать в map(есть)
-        return classifyedOneWayTables;
+
+        return tableList;
 
     }
 

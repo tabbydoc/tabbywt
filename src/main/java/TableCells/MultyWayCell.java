@@ -4,7 +4,7 @@ public class MultyWayCell extends Cell {
 
 
 
-    public MultyWayCell(int id, int row, int col) {
-        super(id, row, col);
+    public MultyWayCell( int row, int col) {
+        super( row, col);
     }
 }

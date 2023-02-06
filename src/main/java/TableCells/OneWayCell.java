@@ -2,19 +2,19 @@ package TableCells;
 
 public final  class OneWayCell extends Cell {
 
-    private int attribute;// optional
+    private Cell attribute;// optional
     private int record; //optional
 
-    public OneWayCell(int id, int rows, int columns) {
-        super(id,rows,columns );
+    public OneWayCell( int rows, int columns) {
+        super(rows,columns );
     }
 
 
-    public int getAttribute() {
+    public Cell getAttribute() {
         return attribute;
     }
 
-    public void setAttribute(int attribute) {
+    public void setAttribute(Cell attribute) {
         this.attribute = attribute;
     }
 

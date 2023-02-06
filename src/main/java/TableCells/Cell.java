@@ -1,7 +1,7 @@
 package TableCells;
 
 public abstract class Cell {
-    protected int id;
+
     protected int row;
     protected int col;
     protected  int rowspan;// optional
@@ -27,8 +27,7 @@ public abstract class Cell {
     // конструкторы объекта Cell
 
 
-    public Cell(int id, int row, int col, int rowspan, int colspan, String text, Type type, String value, String group, Integer parent) {
-        this.id = id;
+    public Cell( int row, int col, int rowspan, int colspan, String text, Type type, String value, String group, Integer parent) {
         this.row = row;
         this.col = col;
         this.rowspan = rowspan;
@@ -40,8 +39,7 @@ public abstract class Cell {
         this.parent = parent;
     }
 
-    public Cell(int id, int row, int col, int rowspan, int colspan, String text, Type type, String value, String group) {
-        this.id = id;
+    public Cell( int row, int col, int rowspan, int colspan, String text, Type type, String value, String group) {
         this.row = row;
         this.col = col;
         this.rowspan = rowspan;
@@ -52,8 +50,7 @@ public abstract class Cell {
         this.group = group;
     }
 
-    public Cell(int id, int row, int col, int rowspan, int colspan, String text, Type type, String value) {
-        this.id = id;
+    public Cell( int row, int col, int rowspan, int colspan, String text, Type type, String value) {
         this.row = row;
         this.col = col;
         this.rowspan = rowspan;
@@ -63,8 +60,7 @@ public abstract class Cell {
         this.value = value;
     }
 
-    public Cell(int id, int row, int col, int rowspan, int colspan, String text, Type type) {
-        this.id = id;
+    public Cell( int row, int col, int rowspan, int colspan, String text, Type type) {
         this.row = row;
         this.col = col;
         this.rowspan = rowspan;
@@ -73,28 +69,22 @@ public abstract class Cell {
         this.type = type;
     }
 
-    public Cell(int id, int row, int col, String text, Type type) {
-        this.id = id;
+    public Cell( int row, int col, String text, Type type) {
         this.row = row;
         this.col = col;
         this.text = text;
         this.type = type;
     }
 
-    public Cell(int id, int row, int col) {
-        this.id = id;
+    public Cell( int row, int col) {
         this.row = row;
         this.col = col;
     }
 
     // Гетеры сетеры
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+
+
 
     public int getRow() {
         return row;

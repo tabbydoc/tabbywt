@@ -30,7 +30,7 @@ public abstract class ElementToTable {
         int countColumns = buf[buf.length - 1]; // переменная с количесвом столбцов
 
         //Присваиваем id
-        int id = 0;
+        int id = 0; //теперь это количесво ячеек
 
         // создаем список клеток
         List<Cell> oneWayCells = new ArrayList<>();
@@ -39,7 +39,7 @@ public abstract class ElementToTable {
         //текст из ячеек и тип таблицы или чёт вроде того
         for (int i = 0; i < countRows; i++) {
             for (int j = 0; j < countColumns; j++) {
-                oneWayCells.add(new OneWayCell(id, i, j)); //создали ячейку с айдишником и номером строки и столбца
+                oneWayCells.add(new OneWayCell(i, j)); //создали ячейку с айдишником и номером строки и столбца
                 id += 1;
             }
         }

@@ -92,25 +92,10 @@ public class DemoApplication {
 
     @GetMapping("/LocalCheking")
     public void LocalChek(@RequestParam(value = "url", defaultValue = "") String url) throws Exception {
-      //  readFile();
+
     }
 
-//    public static void readFile() throws IOException {
-//
-//        // read a file
-//        Resource resource = new ClassPathResource("HTMLcheck.html");
-//
-//        // get inputStream object
-//        InputStream inputStream = resource.getInputStream();
-//
-//        // convert inputStream into a byte array
-//        byte[] dataAsBytes = FileCopyUtils.copyToByteArray(inputStream);
-//
-//        // convert the byte array into a String
-//        String data = new String(dataAsBytes, StandardCharsets.UTF_8);
-//
-//
-//    }
+
 
 
 }

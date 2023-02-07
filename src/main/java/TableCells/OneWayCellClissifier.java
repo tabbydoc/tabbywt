@@ -9,12 +9,13 @@ import static webreduce.data.TableType.ENTITY;
 import static webreduce.data.TableType.RELATION;
 
 public abstract class OneWayCellClissifier {
-
+    public static boolean classify = false;
     // Классифицируем ячейки Relational таблиц
     public static void classifyRelationalCells(List<Table> tables) {
+
         for (Table table : tables)
             if (table.getType() == RELATION) {
-
+                classify = true;
                 List<OneWayCell> cells = (List<OneWayCell>) table.getCells();
                 //создадим список ячеек, в которых будут хранится ячейки 1-й строки
                 List<OneWayCell> firstCells = new ArrayList<>();
@@ -44,12 +45,15 @@ public abstract class OneWayCellClissifier {
                 }
 
             }
+        else
+                classify = false;
     }
 
     // Классифицируем ячейки  Entity таблиц
     public static void classifyEntityCells(List<Table> tables) {
         for (Table table : tables)
             if (table.getType() == ENTITY) {
+                 classify = true;
 
                 List<OneWayCell> cells = (List<OneWayCell>) table.getCells();
                 //создадим список ячеек, в которых будут хранится ячейки 1-го столбца
@@ -73,5 +77,7 @@ public abstract class OneWayCellClissifier {
                 }
 
             }
+        else
+            classify = false;
     }
 }

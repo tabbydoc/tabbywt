@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import TableCells.OneWayCellClissifier;
 import TableThings.ClassifierErebius;
 import TableThings.Discriminator;
 import TableThings.Table;
@@ -38,7 +39,7 @@ public class DemoApplication {
         Document document = Jsoup.parse(htmlResource);
         Elements tables = document.getElementsByTag("table");
         Elements tablesForUse = FIlter.FilterForTable(tables);
-
+// отсеяли ненужные таблицы
 
         //TODO дискриминация(есть)
         Map<Element, TableType> discrimenatedTables = new HashMap<>();
@@ -65,8 +66,8 @@ public class DemoApplication {
 
 //        TODO классифицировать ячейки в Table
 
-        System.out.println(Arrays.toString(tableList.toArray()));
-        // TODO упоковать в map(есть)
+        OneWayCellClissifier.classifyEntityCells(tableList);
+        OneWayCellClissifier.classifyRelationalCells(tableList);
 
         return tableList;
 

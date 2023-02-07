@@ -15,7 +15,7 @@ public abstract class Cell {
         Entry,
         Attrubute,
         Value
-    }//
+    }
 
     Type type;
     protected  String value;// optional

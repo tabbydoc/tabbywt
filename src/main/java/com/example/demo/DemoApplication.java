@@ -93,7 +93,7 @@ public class DemoApplication {
     public void LocalChek(@RequestParam(value = "url", defaultValue = "") String url) throws Exception {
 
     }
-
+//создать классы для сервисов переделать demoApplication
 
 
 

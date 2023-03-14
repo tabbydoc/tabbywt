@@ -25,7 +25,7 @@ import java.util.Map;
 public class RunApplication {
 
     @GetMapping("/extract")
-    public List<Table> extract(@RequestParam(value = "url", defaultValue = "") String url) throws Exception {
+    public static List<Table> extract(@RequestParam(value = "url", defaultValue = "") String url) throws Exception {
 
 
         //TODO фильтр (есть)

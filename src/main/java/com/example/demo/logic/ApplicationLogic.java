@@ -22,10 +22,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RunApplication {
+
+
+public class ApplicationLogic {
+
+    private static Map<Element, TableType> buffer;
+
+
+
 
     @GetMapping("/extract")
-    public static List<Table> extract(@RequestParam(value = "url", defaultValue = "") String url) throws Exception {
+    public static Map<Element, TableType> extract(@RequestParam(value = "url", defaultValue = "") String url) throws Exception {
 
 
         //TODO фильтр (есть)
@@ -56,9 +63,13 @@ public class RunApplication {
         }
         // пока получается, что в classifyedOneWayTables лежат ток односторонние таблицы
 //        Можно завести отдельную мапу для многосторонних таблиц
-
+return ApplicationLogic.buffer = classifyedOneWayTables;
+    }
+        // Отсюда начинается запрос finalize
 //        TODO перевести в Table
-        List<Table> tableList = convertToTable(classifyedOneWayTables);
+        @GetMapping("/fanalize")
+        public static List<Table> fanalize(@RequestParam(value = "url", defaultValue = "") String url){
+        List<Table> tableList = convertToTable(ApplicationLogic.buffer);
 
 //        TODO классифицировать ячейки в Table
 

@@ -13,6 +13,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import webreduce.data.TableType;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 
-
+@Controller
 public class ApplicationLogic {
 
     private static Map<Element, TableType> buffer;
@@ -61,9 +62,11 @@ public class ApplicationLogic {
                 classifyedOneWayTables.put(entry.getKey(), entry.getValue());
             }
         }
+        System.out.println(classifyedOneWayTables);
         // пока получается, что в classifyedOneWayTables лежат ток односторонние таблицы
 //        Можно завести отдельную мапу для многосторонних таблиц
 return ApplicationLogic.buffer = classifyedOneWayTables;
+
     }
         // Отсюда начинается запрос finalize
 //        TODO перевести в Table
@@ -75,7 +78,7 @@ return ApplicationLogic.buffer = classifyedOneWayTables;
 
         OneWayCellClissifier.classifyEntityCells(tableList);
         OneWayCellClissifier.classifyRelationalCells(tableList);
-
+            System.out.println(tableList);
         return tableList;
 
     }
@@ -93,6 +96,7 @@ return ApplicationLogic.buffer = classifyedOneWayTables;
         for (Element tab : TablesElements) {
             tables.add(ElementToTable.transfer(tab));
         }
+        System.out.println(tables);
         return tables;
     }
 }

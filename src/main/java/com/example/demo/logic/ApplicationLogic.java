@@ -27,7 +27,7 @@ import java.util.Map;
 
 @Service
 @Controller
-public class RunApplication {
+public class ApplicationLogic {
 
     @GetMapping("/extract")
     public List<Table> extract(@RequestParam(value = "url", defaultValue = "") String url) throws Exception {

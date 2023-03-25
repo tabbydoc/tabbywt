@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import webreduce.data.TableType;
 
 import java.util.ArrayList;
@@ -25,11 +26,12 @@ import java.util.List;
 import java.util.Map;
 
 
-@Service
+
 @Controller
 public class ApplicationLogic {
 
     @GetMapping("/extract")
+    @ResponseBody  // эта аннотация возвращает результат в теле ответа
     public List<Table> extract(@RequestParam(value = "url", defaultValue = "") String url) throws Exception {
 
 

@@ -3,6 +3,7 @@ package com.example.demo;
 import TableCells.Cell;
 import TableCells.OneWayCell;
 import TableThings.Table;
+import com.example.demo.logic.ApplicationLogic;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -46,7 +47,7 @@ public abstract class ElementToTable {
 
         //Добавляем данные Provenance
         String htmlCode = element.toString();
-        Provenance provenance = new Provenance(DemoApplication.url, htmlCode);
+        Provenance provenance = new Provenance(ApplicationLogic.url, htmlCode);
 
         List<String> notes = null; //Список сносок, нуженбудет в дальнейшем
 

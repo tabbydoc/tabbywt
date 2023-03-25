@@ -30,10 +30,13 @@ import java.util.Map;
 @Controller
 public class ApplicationLogic {
 
-    @GetMapping("/extract")
+   public static String url = new String();
+
+    @GetMapping("/extraction")
     @ResponseBody  // эта аннотация возвращает результат в теле ответа
     public List<Table> extract(@RequestParam(value = "url", defaultValue = "") String url) throws Exception {
 
+        ApplicationLogic.url = url;
 
         //TODO фильтр (есть)
 
@@ -64,6 +67,8 @@ public class ApplicationLogic {
         // пока получается, что в classifyedOneWayTables лежат ток односторонние таблицы
 //        Можно завести отдельную мапу для многосторонних таблиц
 
+
+   //     @GetMapping("/fanalize")
 //        TODO перевести в Table
         List<Table> tableList = convertToTable(classifyedOneWayTables);
 

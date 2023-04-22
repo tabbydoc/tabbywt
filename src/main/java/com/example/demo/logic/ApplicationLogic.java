@@ -26,11 +26,10 @@ import java.util.List;
 import java.util.Map;
 
 
-
 @Controller
 public class ApplicationLogic {
 
-   public static String url = new String();
+    public static String url = new String();
 
     @GetMapping("/extraction")
     @ResponseBody  // эта аннотация возвращает результат в теле ответа
@@ -38,22 +37,24 @@ public class ApplicationLogic {
 
         ApplicationLogic.url = url;
 
-        //TODO фильтр (есть)
+        // фильтр (есть)
 
         Document doc = Jsoup.connect(url).get();
         String htmlResource = GetHTMLCode.getHtmlResourceByURL(url, "UTF-8");
         Document document = Jsoup.parse(htmlResource);
         Elements tables = document.getElementsByTag("table");
         Elements tablesForUse = FIlter.FilterForTable(tables);
-// отсеяли ненужные таблицы
 
-        //TODO дискриминация(есть)
+// отфильтровали ненужные таблицы
+
+
+// дискриминация(есть)
         Map<Element, TableType> discrimenatedTables = new HashMap<>();
         Discriminator discriminator = new DiscriminatorErebius();
         for (Element tableForuse : tablesForUse) {
             discrimenatedTables.put(tableForuse, discriminator.classify(tableForuse));
         }
-        //TODO классификация таблиц(есть)
+        // классификация таблиц(есть)
         Map<Element, TableType> bufer = new HashMap<>();
         Map<Element, TableType> classifyedOneWayTables = new HashMap<>();
         TableClassifier classificator = new ClassifierErebius();
@@ -64,15 +65,11 @@ public class ApplicationLogic {
                 classifyedOneWayTables.put(entry.getKey(), entry.getValue());
             }
         }
-        // пока получается, что в classifyedOneWayTables лежат ток односторонние таблицы
-//        Можно завести отдельную мапу для многосторонних таблиц
 
-
-   //     @GetMapping("/fanalize")
-//        TODO перевести в Table
+//         перевести в Table
         List<Table> tableList = convertToTable(classifyedOneWayTables);
 
-//        TODO классифицировать ячейки в Table
+//        классифицировать ячейки в Table
 
         OneWayCellClissifier.classifyEntityCells(tableList);
         OneWayCellClissifier.classifyRelationalCells(tableList);

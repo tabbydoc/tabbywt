@@ -47,7 +47,7 @@ public abstract class ElementToTable {
 
         //Добавляем данные Provenance
         String htmlCode = element.toString();
-        Provenance provenance = new Provenance(ApplicationLogic.url, htmlCode);
+        Provenance provenance = new Provenance(ApplicationLogic.descriptor, htmlCode);
 
         List<String> notes = null; //Список сносок, нуженбудет в дальнейшем
 

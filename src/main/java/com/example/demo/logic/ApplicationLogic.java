@@ -5,18 +5,15 @@ import TableThings.ClassifierErebius;
 import TableThings.Discriminator;
 import TableThings.Table;
 import TableThings.TableClassifier;
-import com.example.demo.DiscriminatorErebius;
-import com.example.demo.ElementToTable;
-import com.example.demo.FIlter;
-import com.example.demo.GetHTMLCode;
+import com.example.demo.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import webreduce.data.TableType;
 
@@ -29,19 +26,15 @@ import java.util.Map;
 @Controller
 public class ApplicationLogic {
 
-    public static String url = new String();
+    public static String descriptor = new String();
 
-    @GetMapping("/extraction")
-    @ResponseBody  // эта аннотация возвращает результат в теле ответа
-    public List<Table> extract(@RequestParam(value = "url", defaultValue = "") String url) throws Exception {
+    @GetMapping(value = "/extraction", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Table> extract(@RequestBody JsonInput jsonInput) throws Exception {
+        this.descriptor = jsonInput.getDescriptor();
 
-        ApplicationLogic.url = url;
-
-        // фильтр (есть)
-
-        Document doc = Jsoup.connect(url).get();
-        String htmlResource = GetHTMLCode.getHtmlResourceByURL(url, "UTF-8");
-        Document document = Jsoup.parse(htmlResource);
+        // Преобразование дескриптора в объект Document
+        Document document = Jsoup.parse(descriptor);
         Elements tables = document.getElementsByTag("table");
         Elements tablesForUse = FIlter.FilterForTable(tables);
 

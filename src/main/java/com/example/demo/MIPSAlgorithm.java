@@ -93,7 +93,7 @@ public class MIPSAlgorithm {
         for(int i = y1; i <= y2; ++i){
             for(int j = i+1; j <= y2; ++j){
                 if(areRowsEqual(table, i, j, x1, x2)) {
-                    System.out.format("Dup rows r[%d, %d]c[%d, %d]: %d, %d\n", y1, y2, x1, x2, i, j);
+                    //System.out.format("Dup rows r[%d, %d]c[%d, %d]: %d, %d\n", y1, y2, x1, x2, i, j);
                     return true;
                 }
             }
@@ -108,7 +108,7 @@ public class MIPSAlgorithm {
         for(int i = x1; i <= x2; ++i){
             for(int j = i + 1; j <= x2; ++j) {
                 if (areColumnsEqual(table, i, j, y1, y2)) {
-                    System.out.format("Dup cols r[%d, %d]c[%d, %d]: %d, %d\n", y1, y2, x1, x2, i, j);
+                    //System.out.format("Dup cols r[%d, %d]c[%d, %d]: %d, %d\n", y1, y2, x1, x2, i, j);
                     return true;
                 }
             }
@@ -133,7 +133,7 @@ public class MIPSAlgorithm {
         TableCoordinates cc2 = new TableCoordinates(0,0);
 
         while(c2 < cmax && r2 >= r1){
-            System.out.format("(%d, %d)\n", r2, c2);
+            //System.out.format("(%d, %d)\n", r2, c2);
             if(!hasDuplicateRows(table, r2+1, c1, rmax, c2) &&
                !hasDuplicateColumns(table, r1, c2+1, r2, cmax)) // r2-1? не ошибка ли?
             {
@@ -145,7 +145,7 @@ public class MIPSAlgorithm {
                 if(upflag){ // upflag == rightflag == true
                     // запоминается точка с наибольшей площадью данных (макс. лево-верхняя)
                     int dataArea = (rmax - r2 + 1) * (cmax - c2 + 1);
-                    System.out.format("cc2 candidate: (%d, %d)\n", r2, c2);
+                    //System.out.format("cc2 candidate: (%d, %d)\n", r2, c2);
                     if(dataArea > maxarea){
                         maxarea = dataArea;
                         cc2.set(r2, c2);

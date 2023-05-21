@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 import webreduce.data.TableType;
 import webreduce.extraction.mh.tools.TableConvert;
 
+import java.util.List;
+import java.util.Vector;
 
 
 @SpringBootApplication
 @RestController
 public class DemoApplication {
-    static String url = new String();
+	public final String TEST_URL = "https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)";
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
@@ -31,8 +33,8 @@ public class DemoApplication {
 
 	@GetMapping("/mytest")
 	public String mytest() throws Exception{
-		//String url = "https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)";
-		String url = "file:///home/ilya/Downloads/convertcsv.htm";
+		String url = "https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)";
+		//String url = "file:///home/ilya/Downloads/convertcsv.htm";
 		String htmlResource = GetHTMLCode.getHtmlResourceByURL(url, "UTF-8");
 		Document doc = Jsoup.parse(htmlResource);
 
@@ -81,6 +83,45 @@ public class DemoApplication {
 		return sb.toString();
 	}
 
+	@GetMapping("/getjson")
+	public ResponseInfo getJson(@RequestParam(value = "url", defaultValue = TEST_URL) String url) throws Exception {
+		ResponseInfo json = new ResponseInfo();
+		json.url = url;
+		json.vector = new Vector<TableInfo>();
+
+		String htmlResource = GetHTMLCode.getHtmlResourceByURL(url,"UTF-8"); //Получаем код со страницы
+		Document document = Jsoup.parse(htmlResource);
+
+		Elements tables = document.getElementsByTag("table");
+
+		Discriminator discr = new DiscriminatorErebius();
+		TableConvert tconv = new TableConvert(2,2);
+		MIPSAlgorithm mips = new MIPSAlgorithm();
+
+		for(Element table : tables){
+			TableInfo newTable = new TableInfo();
+
+			TableType type = discr.classify(table);
+			newTable.type = type;
+			if(type == TableType.LAYOUT) {
+				json.vector.add(newTable);
+				continue;
+			}
+
+			Element[][] tb = tconv.toTable(table).get();
+			TableCoordinates cc2 = new TableCoordinates(999,999);
+			try {
+				cc2 = mips.search2arr(tb);
+			} catch (Exception e) {}
+
+			newTable.criticalCornerI = cc2.i;
+			newTable.criticalCornerJ = cc2.j;
+
+			json.vector.add(newTable);
+		}
+
+		return json;
+	}
 	@GetMapping("/type")
 	public String typeTest(@RequestParam(value = "url", defaultValue = "https://example.com") String url) throws Exception {
 
@@ -148,4 +189,15 @@ public class DemoApplication {
 //		return String.format("Кол - во тегов " + count+ "\n" );
 
 	}
+}
+
+class ResponseInfo{
+	public String url;
+	public Vector<TableInfo> vector;
+}
+
+class TableInfo{
+	public TableType type;
+	public int criticalCornerI;
+	public int criticalCornerJ;
 }

@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-public abstract class GetHTMLCode {
+public final class GetHTMLCode {
     public static String getHtmlResourceByURL(String url, String encoding) {
         StringBuffer sb = new StringBuffer();
         URL urlObj = null;

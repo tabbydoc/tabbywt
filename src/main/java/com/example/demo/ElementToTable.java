@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class ElementToTable {
+public final class ElementToTable {
 
     public static Table transfer(Element element) {
 

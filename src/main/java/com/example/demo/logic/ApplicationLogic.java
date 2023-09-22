@@ -41,7 +41,7 @@ public class ApplicationLogic {
 // отфильтровали ненужные таблицы
 
 
-// дискриминация(есть)
+// дискриминация
         Map<Element, TableType> discrimenatedTables = new HashMap<>();
         Discriminator discriminator = new DiscriminatorErebius();
         for (Element tableForuse : tablesForUse) {

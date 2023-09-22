@@ -16,46 +16,32 @@ public final class ElementToTable {
     public static Table transfer(Element element) {
 
         Elements rows = element.getElementsByTag("tr");
-        int countRows = rows.size(); //переменная с количесвтом строк
-        int[] buf = new int[countRows]; //буферная переменная для подсчета количества столбцов в каждой строке
+        int countRows = rows.size();
 
+        // Использование Stream API для подсчета максимального числа столбцов
+        int countColumns = rows.stream()
+                .mapToInt(row -> row.getElementsByTag("td").size() + row.getElementsByTag("th").size())
+                .max()
+                .orElse(0);
 
-        //считаем количество столбцов
-        for (int i = 0; i < buf.length; i++) {
+        // Создание списка с предварительно определенным размером
+        List<Cell> oneWayCells = new ArrayList<>(countRows * countColumns);
 
-            buf[i] = rows.get(i).getElementsByTag("td").size()
-                    + rows.get(i).getElementsByTag("th").size();
-        }
-
-        Arrays.sort(buf); // сортируем массив buf, получаем
-        int countColumns = buf[buf.length - 1]; // переменная с количесвом столбцов
-
-        //Присваиваем id
-        int id = 0; //теперь это количесво ячеек
-
-        // создаем список клеток
-        List<Cell> oneWayCells = new ArrayList<>();
-
-        // Добавляем элементы класса Cell в лист, предварительно нужно будет вытрясти
-        //текст из ячеек и тип таблицы или чёт вроде того
+        // Заполнение списка
         for (int i = 0; i < countRows; i++) {
             for (int j = 0; j < countColumns; j++) {
-                oneWayCells.add(new OneWayCell(i, j)); //создали ячейку с айдишником и номером строки и столбца
-                id += 1;
+                oneWayCells.add(new OneWayCell(i, j));
             }
         }
 
-        //Добавляем данные Provenance
         String htmlCode = element.toString();
         Provenance provenance = new Provenance(ApplicationLogic.descriptor, htmlCode);
+        List<String> notes = new ArrayList<>(); // Инициализация с пустым списком вместо null
 
-        List<String> notes = null; //Список сносок, нуженбудет в дальнейшем
-
-        //Создаем объект типа Metadata
-        Metadata metadata = new Metadata(countRows, countColumns, id, "test", "test", notes);
+        Metadata metadata = new Metadata(countRows, countColumns, oneWayCells.size(), "test", "test", notes);
 
         return new Table(metadata, provenance, oneWayCells);
-
     }
 }
+
 

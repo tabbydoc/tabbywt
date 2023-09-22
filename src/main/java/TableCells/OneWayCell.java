@@ -1,6 +1,6 @@
 package TableCells;
 
-public final  class OneWayCell extends Cell {
+public class OneWayCell extends Cell {
 
     private Cell attribute;// optional
     private int record; //optional

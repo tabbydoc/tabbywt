@@ -1,6 +1,7 @@
 package TableCells;
 
 import TableThings.Table;
+import webreduce.data.TableType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,45 +9,38 @@ import java.util.List;
 import static webreduce.data.TableType.ENTITY;
 import static webreduce.data.TableType.RELATION;
 
-public abstract class OneWayCellClissifier {
+public abstract class OneWayCellClassifier {
     public static boolean classify = false;
     // Классифицируем ячейки Relational таблиц
     public static void classifyRelationalCells(List<Table> tables) {
-
-        for (Table table : tables)
-            if (table.getType() == RELATION) {
-                classify = true;
+        for (Table table : tables) {
+            if (table.getType() == TableType.RELATION) {
                 List<OneWayCell> cells = (List<OneWayCell>) table.getCells();
-                //создадим список ячеек, в которых будут хранится ячейки 1-й строки
-                List<OneWayCell> firstCells = new ArrayList<>();
-                //добавим атрибуты в 1-ю строку
+                List<OneWayCell> firstRowCells = new ArrayList<>();
 
-                for (int i = 0; i < cells.size(); i++) {
-
-                    if (cells.get(i).getRow() == 1) {
-                        cells.get(i).setAttribute(cells.get(i));
-                        firstCells.add(cells.get(i)); //1-я строка (заголовки) с атрибутами
+                // Получение ячеек первой строки и установка их как атрибуты.
+                for (OneWayCell cell : cells) {
+                    if (cell.getRow() == 1) {
+                        cell.setAttribute(cell);
+                        firstRowCells.add(cell);
                     }
                 }
 
-                //присваиваем атрибуты клеткам
-                for (int i = 0; i < firstCells.size(); i++) {
-                    for (int j = 0; j < cells.size() ; j++) {
-                        if (cells.get(j).getCol() == firstCells.get(i).getCol()){
-                            cells.get(j).setAttribute(firstCells.get(i));
+                // Присвоение атрибутов всем ячейкам
+                for (OneWayCell headerCell : firstRowCells) {
+                    for (OneWayCell cell : cells) {
+                        if (cell.getCol() == headerCell.getCol()) {
+                            cell.setAttribute(headerCell);
                         }
                     }
                 }
-// присваиваем record клеткам
-                int temp;
-                for (int i = 0; i < cells.size(); i++) {
-                    temp = cells.get(i).getRow();
-                    cells.get(i).setRecord(temp);
-                }
 
+                // Присвоение record всем ячейкам
+                for (OneWayCell cell : cells) {
+                    cell.setRecord(cell.getRow());
+                }
             }
-        else
-                classify = false;
+        }
     }
 
     // Классифицируем ячейки  Entity таблиц

@@ -78,7 +78,6 @@ public class MIPSAlgorithm {
     }
 
     private boolean hasDuplicateRows(Element table[][], int y1, int x1, int y2, int x2){
-        /*
         if(x1 > x2){
             int tt = x1;
             x1 = x2;
@@ -88,7 +87,7 @@ public class MIPSAlgorithm {
             int tt = y1;
             y1 = y2;
             y2 = tt;
-        }*/
+        }
 
         for(int i = y1; i <= y2; ++i){
             for(int j = i+1; j <= y2; ++j){

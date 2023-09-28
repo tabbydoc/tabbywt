@@ -26,10 +26,15 @@ public abstract class Cell {
     protected String group; // optional
     protected Integer parent; // optional
 
-
     public Cell(int row, int col) {
         this.row = row;
         this.col = col;
-        // Инициализация других полей, если это необходимо
+    }
+
+    public Cell(int row, int col, String text, Type type) {
+        this.row = row;
+        this.col = col;
+        this.text = text;
+        this.type = type;
     }
 }

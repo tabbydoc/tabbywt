@@ -9,6 +9,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import webreduce.data.TableType;
 
@@ -24,26 +28,64 @@ public class ApplicationLogic {
     public static String descriptor = new String(); // Строка для хранения HTML-дескриптора веб-страницы
 
     @GetMapping("/extraction") // Определяет, что метод должен обрабатывать HTTP GET запросы на "/extraction"
-    public void extract(@RequestParam String url) throws Exception { // Метод для извлечения и обработки данных с веб-страницы
-        this.descriptor = GetHTMLCode.getHtmlResourceByURL(url, "UTF-8"); // Получение HTML-кода веб-страницы по URL
+    public ResponseEntity<String> extract(@RequestParam String url) throws Exception {
+        this.descriptor = GetHTMLCode.getHtmlResourceByURL(url, "UTF-8");
 
-        // Преобразование HTML-кода в объект Document для дальнейшей обработки
         Document document = Jsoup.parse(descriptor);
 
-        // Извлечение всех таблиц из HTML-документа
         Elements tables = document.getElementsByTag("table");
 
-        // Фильтрация таблиц, выбираются только подходящие для обработки
         Elements tablesForUse = Filter.filterForTable(tables);
+        Map<Element, TableType> CommonTables = new HashMap<>();
 
-        // Инициализация Map для хранения классифицированных таблиц
-        Map<Element, TableType> classifiedOneWayTables = new HashMap<>();
-
-        // Инициализация объектов дискриминатора и классификатора
         DiscriminatorErebius discriminator = new DiscriminatorErebius();
         TableClassifier classifier = new ClassifierErebius();
 
-        // Цикл по всем отфильтрованным таблицам для классификации
+
+        for (Element tableForUse : tablesForUse) {
+            TableType type = discriminator.classify(tableForUse);
+                CommonTables.put(tableForUse, classifier.classify(tableForUse));
+        }
+
+        List<Table> tableList = convertToTable(CommonTables);
+        OneWayCellClassifier.classifyEntityCells(tableList);
+        OneWayCellClassifier.classifyRelationalCells(tableList);
+
+        // Создаем HTML ответ
+        StringBuilder htmlResponse = new StringBuilder();
+        htmlResponse.append("<html><body>");
+
+        for (Map.Entry<Element, TableType> entry : CommonTables.entrySet()) {
+            htmlResponse.append("<div>");
+            htmlResponse.append("<p>Type: ").append(entry.getValue().toString()).append("</p>");
+            htmlResponse.append(entry.getKey().outerHtml());
+
+            // Добавляем выпадающий список для выбора типа таблицы
+            htmlResponse.append("<select onchange='updateTableType(this)'>");
+
+            String[] types = {"LAYOUT", "RELATION", "MATRIX", "ENTITY", "OTHER"};
+            for (String type : types) {
+                htmlResponse.append("<option value='").append(type).append("'");
+                if (type.equals(entry.getValue().toString())) {
+                    htmlResponse.append(" selected");
+                }
+                htmlResponse.append(">").append(type).append("</option>");
+            }
+            htmlResponse.append("</select>");
+
+            htmlResponse.append("</div>");
+        }
+
+
+        htmlResponse.append("</body></html>");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_HTML);
+
+        return new ResponseEntity<>(htmlResponse.toString(), headers, HttpStatus.OK);
+    }
+
+      /*  // Цикл по всем отфильтрованным таблицам для классификации
         for (Element tableForUse : tablesForUse) {
             TableType type = discriminator.classify(tableForUse); // Дискриминация типа таблицы
             if (type == TableType.RELATION || type == TableType.ENTITY) {
@@ -63,7 +105,7 @@ public class ApplicationLogic {
         for (Table table : tableList) {
             System.out.println("Table HTML: " + table.getProvenance().getHtml());
         }
-    }
+    }*/
 
     // Метод для конвертации классифицированных элементов таблиц в объекты Table
     public static List<Table> convertToTable(Map<Element, TableType> map) {

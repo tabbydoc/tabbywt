@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import webreduce.data.TableType;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,32 +81,13 @@ public class ApplicationLogic {
         htmlResponse.append("</body></html>");
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.TEXT_HTML);
+        headers.setContentType(new MediaType("text", "html", StandardCharsets.UTF_8));
+
+
 
         return new ResponseEntity<>(htmlResponse.toString(), headers, HttpStatus.OK);
     }
 
-      /*  // Цикл по всем отфильтрованным таблицам для классификации
-        for (Element tableForUse : tablesForUse) {
-            TableType type = discriminator.classify(tableForUse); // Дискриминация типа таблицы
-            if (type == TableType.RELATION || type == TableType.ENTITY) {
-                classifiedOneWayTables.put(tableForUse, classifier.classify(tableForUse)); // Классификация типа таблицы
-            }
-        }
-
-        // Конвертация классифицированных таблиц в объекты типа Table
-        List<Table> tableList = convertToTable(classifiedOneWayTables);
-
-        // Классификация ячеек в таблицах
-        OneWayCellClassifier.classifyEntityCells(tableList);
-        OneWayCellClassifier.classifyRelationalCells(tableList);
-
-        // Вывод информации о таблицах в консоль
-        System.out.println("Number of one-way tables: " + tableList.size());
-        for (Table table : tableList) {
-            System.out.println("Table HTML: " + table.getProvenance().getHtml());
-        }
-    }*/
 
     // Метод для конвертации классифицированных элементов таблиц в объекты Table
     public static List<Table> convertToTable(Map<Element, TableType> map) {

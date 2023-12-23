@@ -4,14 +4,12 @@ import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@RequiredArgsConstructor
+
 public abstract class Cell {
 
     protected int row;
     protected int col;
-    protected int rowspan; // optional
+    protected int rowspan; // optional объедененные колонки или строки
     protected int colspan; // optional
     protected String text;
 

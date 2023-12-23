@@ -5,9 +5,10 @@ import com.example.demo.Metadata;
 import com.example.demo.Provenance;
 import webreduce.data.TableType;
 
+import java.io.Serializable;
 import java.util.List;
 
-public final class Table {
+public final class Table implements Serializable {
 
     private TableType type;
     private Metadata metaData;
@@ -19,6 +20,7 @@ public final class Table {
     public Table(Metadata metaData, Provenance provenance, List<Cell> cells) {
         this.metaData = metaData;
         this.provenance = provenance;
+        this.Cells = cells;
     }
 
     public Metadata getMetaData() {
@@ -47,6 +49,10 @@ public final class Table {
 
     public TableType getType() {
         return type;
+    }
+
+    public void setType(TableType type) {
+        this.type = type;
     }
 
     @Override

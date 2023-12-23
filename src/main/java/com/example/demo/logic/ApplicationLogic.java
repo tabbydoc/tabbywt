@@ -5,6 +5,7 @@ import TableThings.ClassifierErebius;
 import TableThings.Table;
 import TableThings.TableClassifier;
 import com.example.demo.*;
+import com.google.gson.Gson;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import webreduce.data.TableType;
+import edu.stanford.nlp.pipeline.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -36,21 +38,27 @@ public class ApplicationLogic {
 
         Elements tables = document.getElementsByTag("table");
 
-        Elements tablesForUse = Filter.filterForTable(tables);
-        Map<Element, TableType> CommonTables = new HashMap<>();
+        Elements tablesForUse = Filter.filterForTable(tables); // Здесь отсеяли всякие кривые таблицы, которые изначально впринципе не рассматриваем(1 ячейка, 1 столбец, 1 строка и т.д.)
+        Map<Element, TableType> CommonTables = new HashMap<>();// мапа куда будем складывать отсортированнные таблицы
 
-        DiscriminatorErebius discriminator = new DiscriminatorErebius();
+
         TableClassifier classifier = new ClassifierErebius();
 
 
         for (Element tableForUse : tablesForUse) {
-            TableType type = discriminator.classify(tableForUse);
                 CommonTables.put(tableForUse, classifier.classify(tableForUse));
         }
+
+
 
         List<Table> tableList = convertToTable(CommonTables);
         OneWayCellClassifier.classifyEntityCells(tableList);
         OneWayCellClassifier.classifyRelationalCells(tableList);
+
+        //TODO каждый элемент tableList перевести в JSON формат
+        String jsonOutput = convertTablesToJson(tableList);
+        System.out.println(jsonOutput);
+
 
         // Создаем HTML ответ
         StringBuilder htmlResponse = new StringBuilder();
@@ -83,9 +91,11 @@ public class ApplicationLogic {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("text", "html", StandardCharsets.UTF_8));
 
+        HttpHeaders headersJSON = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-
-        return new ResponseEntity<>(htmlResponse.toString(), headers, HttpStatus.OK);
+        return //new ResponseEntity<>(htmlResponse.toString(), headers, HttpStatus.OK);
+                new ResponseEntity<>(jsonOutput, headers, HttpStatus.OK);
     }
 
 
@@ -104,5 +114,21 @@ public class ApplicationLogic {
             tables.add(ElementToTable.transfer(tab));
         }
         return tables;
+    }
+
+    private static String convertTablesToJson(List<Table> tables) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> jsonTables = new ArrayList<>();
+
+        for (Table table : tables) {
+            Map<String, Object> jsonTable = new HashMap<>();
+            jsonTable.put("metadata", table.getMetaData());
+            jsonTable.put("provenance", table.getProvenance());
+            jsonTable.put("cells", table.getCells());
+
+            jsonTables.add(jsonTable);
+        }
+
+        return gson.toJson(jsonTables);
     }
 }

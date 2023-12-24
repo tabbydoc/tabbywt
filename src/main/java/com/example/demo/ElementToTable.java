@@ -42,7 +42,7 @@ public final class ElementToTable {
         }
 
         String htmlCode = element.toString();
-        Provenance provenance = new Provenance(ApplicationLogic.descriptor, htmlCode);
+        Provenance provenance = new Provenance(ApplicationLogic.url, htmlCode);
         List<String> notes = new ArrayList<>(); // Инициализация с пустым списком вместо null
 
         // Использование обновленного конструктора Metadata

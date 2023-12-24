@@ -29,11 +29,12 @@ import java.util.Map;
 public class ApplicationLogic {
 
     public static String descriptor = new String(); // Строка для хранения HTML-дескриптора веб-страницы
+    public static String url;
 
     @GetMapping("/extraction") // Определяет, что метод должен обрабатывать HTTP GET запросы на "/extraction"
     public ResponseEntity<String> extract(@RequestParam String url) throws Exception {
         this.descriptor = GetHTMLCode.getHtmlResourceByURL(url, "UTF-8");
-
+        this.url = url;
         Document document = Jsoup.parse(descriptor);
 
         Elements tables = document.getElementsByTag("table");
@@ -46,9 +47,8 @@ public class ApplicationLogic {
 
 
         for (Element tableForUse : tablesForUse) {
-                CommonTables.put(tableForUse, classifier.classify(tableForUse));
+            CommonTables.put(tableForUse, classifier.classify(tableForUse));
         }
-
 
 
         List<Table> tableList = convertToTable(CommonTables);

@@ -18,7 +18,7 @@ public final class GetHTMLCode {
             urlObj = new URL(url);
             // Открываем сетевое соединение
             uc = urlObj.openConnection();
-            br = new BufferedReader(new InputStreamReader(uc.getInputStream(), encoding)); //сюда это не относится, просто берём нужный нам файл и запускаем его в stream
+            br = new BufferedReader(new InputStreamReader(uc.getInputStream(), encoding));
             String tempLine = null; // Временная переменная (то есть временный файл)
             while ((tempLine = br.readLine()) != null) {
                 sb.append(tempLine + "\n"); // Автоматически переносится после чтения строки

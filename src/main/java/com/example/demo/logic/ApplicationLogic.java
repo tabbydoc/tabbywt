@@ -11,11 +11,14 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import webreduce.data.TableType;
 
 import java.nio.charset.StandardCharsets;
@@ -25,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 
+@CrossOrigin(origins = "*") // Разрешаем CORS запросы со всех доменов
 @RestController // Определяет класс как контроллер Spring, который может обрабатывать HTTP-запросы
 public class ApplicationLogic {
 
@@ -55,44 +59,11 @@ public class ApplicationLogic {
         OneWayCellClassifier.classifyEntityCells(tableList);
         OneWayCellClassifier.classifyRelationalCells(tableList);
 
-        // Создаем HTML ответ
-        StringBuilder htmlResponse = new StringBuilder();
-        htmlResponse.append("<html><body>");
-
-        for (Map.Entry<Element, TableType> entry : CommonTables.entrySet()) {
-            htmlResponse.append("<div>");
-            htmlResponse.append("<p>Type: ").append(entry.getValue().toString()).append("</p>");
-            htmlResponse.append(entry.getKey().outerHtml());
-
-            // Добавляем выпадающий список для выбора типа таблицы
-            htmlResponse.append("<select onchange='updateTableType(this)'>");
-
-            String[] types = {"LAYOUT", "RELATION", "MATRIX", "ENTITY", "OTHER"};
-            for (String type : types) {
-                htmlResponse.append("<option value='").append(type).append("'");
-                if (type.equals(entry.getValue().toString())) {
-                    htmlResponse.append(" selected");
-                }
-                htmlResponse.append(">").append(type).append("</option>");
-            }
-            htmlResponse.append("</select>");
-
-            htmlResponse.append("</div>");
-        }
 
 
-        htmlResponse.append("</body></html>");
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("text", "html", StandardCharsets.UTF_8));
-
-        String convertedToJson = convertTablesToJson(tableList); // Получаем JSON строку из списка объектов Table
-        String filePath = "C:\\education\\output.json"; // Укажите путь к файлу, куда вы хотите сохранить JSON
-
-// Вызов метода для записи JSON в файл
-        JsonFileWriter.writeJsonToFile(convertedToJson, filePath);
-
-        return new ResponseEntity<>(htmlResponse.toString(), headers, HttpStatus.OK);
+        String json = convertTablesToJson(tableList);
+        JsonFileWriter.writeJsonToFile(json, "C:\\education\\output.json");
+        return ResponseEntity.ok(json); // Отправка JSON клиенту
     }
 
 

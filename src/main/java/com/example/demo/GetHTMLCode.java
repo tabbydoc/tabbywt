@@ -37,5 +37,4 @@ public final class GetHTMLCode {
         }
         return sb.toString();
     }
-
 }

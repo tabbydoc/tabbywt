@@ -7,7 +7,6 @@ import lombok.*;
 
 @Getter
 @Setter
-
 public class Metadata {
     private int countRows;
     private int countCols;
@@ -28,27 +27,6 @@ public class Metadata {
         this.type = type;
     }
 
-    // Геттеры и сеттеры для всех полей
-    public int getCountRows() { return countRows; }
-    public void setCountRows(int countRows) { this.countRows = countRows; }
-
-    public int getCountCols() { return countCols; }
-    public void setCountCols(int countCols) { this.countCols = countCols; }
-
-    public int getCountCells() { return countCells; }
-    public void setCountCells(int countCells) { this.countCells = countCells; }
-
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
-
-    public String getUnit() { return unit; }
-    public void setUnit(String unit) { this.unit = unit; }
-
-    public List<String> getNotes() { return notes; }
-    public void setNotes(List<String> notes) { this.notes = notes; }
-
-    public String getType() { return type; }
-    public void setType(String type) { this.type = type; }
 
     @Override
     public String toString() {

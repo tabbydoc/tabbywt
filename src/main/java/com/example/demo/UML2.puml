@@ -1,0 +1,58 @@
+@startuml
+
+hide class circle
+
+skinparam linetype ortho
+skinparam nodesep 10
+skinparam ranksep 200
+
+package "com.example.demo.logic" {
+    [ApplicationLogic]
+    [JsonFileWriter]
+    [DemoApplication]
+    [DiscriminatorErebius]
+    [ElementToTable]
+    [Filter]
+    [GetHTMLCode]
+    [Metadata]
+    [Provenance]
+    [TableCoordinates]
+}
+
+package "TableCells" {
+    [Cell]
+    [MultiWayCell]
+    [MultiWayCellClassifier]
+    [OneWayCell]
+    [OneWayCellClassifier]
+}
+
+package "TableThings" {
+    [ClassifierErebius]
+    [Discriminator]
+    [Table]
+    [TableClassifier]
+}
+
+package "webreduce.data" {
+    [TableType]
+}
+
+[ApplicationLogic] --> [DiscriminatorErebius] : uses
+[ApplicationLogic] --> [ElementToTable] : uses
+[ApplicationLogic] --> [Filter] : uses
+[ApplicationLogic] --> [GetHTMLCode] : uses
+[ApplicationLogic] --> [Metadata] : uses
+[ApplicationLogic] --> [Provenance] : uses
+[ApplicationLogic] --> [ClassifierErebius] : uses
+[ApplicationLogic] --> [Table] : uses
+[ApplicationLogic] --> [TableType] : uses
+
+[DiscriminatorErebius] --|> [Discriminator] : extends
+[ElementToTable] --> [Table] : creates
+[OneWayCell] --|> [Cell] : extends
+[MultiWayCell] --|> [Cell] : extends
+[ClassifierErebius] --|> [TableClassifier] : extends
+[Table] --> [TableType] : has
+
+@enduml

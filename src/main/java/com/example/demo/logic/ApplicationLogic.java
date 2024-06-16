@@ -62,7 +62,6 @@ public class ApplicationLogic {
 
 
         String json = convertTablesToJson(tableList);
-        JsonFileWriter.writeJsonToFile(json, "C:\\education\\output.json");
         return ResponseEntity.ok(json); // Отправка JSON клиенту
     }
 

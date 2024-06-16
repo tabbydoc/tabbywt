@@ -1,0 +1,28 @@
+@startuml
+
+left to right direction
+
+actor "Пользователь" as user
+
+rectangle "HTML Страница" {
+    usecase "Ввести URL" as UC1
+    usecase "Отправить URL на Сервер" as UC2
+    usecase "Получить Классифицированные Таблицы" as UC6
+}
+
+rectangle "Сервер" {
+    usecase "Обработать HTML Страницу" as UC3
+    usecase "Извлечь Таблицы" as UC4
+    usecase "Классифицировать Таблицы" as UC5
+}
+
+user --> UC1 : вводит
+UC1 --> UC2 : запускает
+UC2 --> UC3 : отправляет
+UC3 --> UC4 : обрабатывает
+UC4 --> UC5 : извлекает
+UC5 --> UC3 : классифицирует
+UC3 --> UC6 : возвращает
+user --> UC6 : просматривает
+
+@enduml

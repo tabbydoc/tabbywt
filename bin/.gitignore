@@ -25,4 +25,3 @@ examples/results/*
 
 # Backup files
 *.bak
-/target/

@@ -54,5 +54,5 @@ package "webreduce.data" {
 [MultiWayCell] --|> [Cell] : extends
 [ClassifierErebius] --|> [TableClassifier] : extends
 [Table] --> [TableType] : has
-
+[Table] --> [Cell] : has
 @enduml
